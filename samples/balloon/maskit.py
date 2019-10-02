@@ -184,20 +184,22 @@ def train(model):
     dataset_train.load_balloon(args.dataset, "train")
     dataset_train.prepare()
 
-    os.makedirs("train_out")
-    os.makedirs("val_out")
+    os.makedirs("train_out/files")
+    os.makedirs("train_out/masks")
+    os.makedirs("val_out/files")
+    os.makedirs("val_out/masks")
 
     ids = dataset_train.image_ids
     for cur_id in ids:
         print(cur_id)
         im = dataset_train.load_image(cur_id);
         print(im.shape)
-        skimage.io.imsave("train_out/file_{:03d}.png".format(cur_id), im)
+        skimage.io.imsave("train_out/files/image_{:03d}.png".format(cur_id), im)
         mask = dataset_train.load_mask(cur_id)[0].astype(np.int)
         # print(mask)
         # gray = skimage.color.gray2rgb(mask)
         print("MAX IS ", np.max(mask), mask.shape)
-        skimage.io.imsave("train_out/mask_{:03d}.png".format(cur_id), mask)
+        skimage.io.imsave("train_out/masks/image_{:03d}.png".format(cur_id), mask)
 
 
     # Validation dataset
@@ -210,12 +212,12 @@ def train(model):
         print(cur_id)
         im = dataset_val.load_image(cur_id);
         print(im.shape)
-        skimage.io.imsave("train_out/file_{:03d}.png".format(cur_id), im)
+        skimage.io.imsave("val_out/files/image_{:03d}.png".format(cur_id), im)
         mask = dataset_val.load_mask(cur_id)[0].astype(np.int)
         # print(mask)
         # gray = skimage.color.gray2rgb(mask)
         print("MAX IS ", np.max(mask), mask.shape)
-        skimage.io.imsave("train_out/mask_{:03d}.png".format(cur_id), mask)
+        skimage.io.imsave("val_out/masks/image_{:03d}.png".format(cur_id), mask)
 
     print("WE GOT THERE")
     sys.exit(0)
